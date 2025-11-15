@@ -43,11 +43,6 @@ services:
     networks:
       backend:
         ipv4_address: 172.20.0.5
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:5000/ || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
     restart: on-failure 
 
 
