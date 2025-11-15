@@ -21,7 +21,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 30s # Give MySQL time to initialize
+      start_period: 60s # Give MySQL time to initialize
     restart: on-failure 
 
 
