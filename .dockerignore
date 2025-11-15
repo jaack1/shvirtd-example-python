@@ -1,0 +1,17 @@
+# Ignore all .git related files and directories
+.git
+.gitignore
+
+haproxy
+
+nginx
+
+*.md
+
+*.pdf
+
+.env
+
+proxy.yaml
+
+Dockerfile*
