@@ -17,11 +17,11 @@ services:
       backend:
         ipv4_address: 172.20.0.10
     healthcheck:
-      test: ["CMD", "mysql", "--user=$$MYSQL_USER", "--password=$$MYSQL_PASSWORD", "-e", "SHOW DATABASES LIKE '$$MYSQL_DATABASE';"]
+      test: ["CMD", "mysqladmin", "ping", -u $$MYSQL_USER, --password=$$MYSQL_PASSWORD]
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 30s # Give MySQL time to initialize
+      start_period: 60s # Give MySQL time to initialize
     restart: on-failure 
 
 
