@@ -28,8 +28,9 @@ services:
   
   web:
     image: python-web:latest
-    build: .
-    dockerfile: Dockerfile.python
+    build:
+      context: .
+      dockerfile: Dockerfile.python
     environment:
       DB_HOST: "db"
       DB_USER: ${MYSQL_USER}
