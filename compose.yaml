@@ -1,0 +1,57 @@
+version: '3.8'
+
+
+include:
+  - proxy.yaml
+
+services:
+
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    networks:
+      backend:
+      ipv4_address: 172.20.0.10
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", -u $$MYSQL_USER, --password=$$MYSQL_PASSWORD]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s # Give MySQL time to initialize
+    restart: on-failure 
+
+
+  
+  web:
+    image: python-web:latest
+    build: .
+    dockerfile: Dockerfile.python
+    environment:
+      DB_HOST: "db"
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      DB_NAME: ${MYSQL_DATABASE}
+      DB_TABLE: ${MYSQL_TABLE}
+    depends_on:
+      - db
+    networks:
+      backend:
+      ipv4_address: 172.20.0.5
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5000/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: on-failure 
+
+
+networks:
+  backend:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.20.0.0/24
