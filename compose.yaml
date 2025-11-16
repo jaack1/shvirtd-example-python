@@ -13,7 +13,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
-    command: --default-authentication-plugin=mysql_native_password
+    command: ["mysqld", "--mysql-native-password=ON"]
     networks:
       backend:
         ipv4_address: 172.20.0.10
