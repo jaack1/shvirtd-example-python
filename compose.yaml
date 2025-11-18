@@ -39,8 +39,7 @@ services:
       DB_NAME: ${MYSQL_DATABASE}
       DB_TABLE: ${MYSQL_TABLE}
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     networks:
       backend:
         ipv4_address: 172.20.0.5
